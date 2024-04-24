@@ -3,12 +3,18 @@ function GameBoard () {
   const columns = 3;
   const board = [];
 
-  for (let r = 0; r < rows; r++) {
-    console.log('#');
-    for (let c = 0; r < columns; c++) {
-      console.log('#')
+ return function makeBoard() { 
+    for (let i = 0; i < rows; i++) {
+      board[i] = [];
+      for (let j = 0; j < columns; j++) {
+        board[i].push('X');
+      }
     }
+    return console.log(board);
   }
 }
 
-GameBoard();
+const gameBoard = GameBoard();
+
+console.log(gameBoard());
+
