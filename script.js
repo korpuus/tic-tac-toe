@@ -1,38 +1,35 @@
-//step 1. Display board
+
 function GameBoard () {
-  const rows = 3;
-  const columns = 3;
+  const row = 3;
+  const column = 3;
   const board = [];
 
-  return function MakeBoard() { 
-    for (let i = 0; i < rows; i++) {
-      board[i] = [];
-      for (let j = 0; j < columns; j++) {
-        board[i].push(Cell());
-      }
+  //create 2d board
+  for (let i = 0; i < row; i++) {
+    board[i] = [];
+    for (let j = 0; j < column; j++) {
+      board[i].push(0);
     }
-    return board;
+  }
+ 
+
+const playerMove = () => {
+  const row = prompt('Enter row and row number from 1 to 3: ');
+  const column = prompt('Enter column number from 1 to 3: ');
+
+  if (row > 0 && row < row.length && column > 0 && column < column.length) {
+    const selectedPlace = board[row][column];
+    console.log(`Selected place is ${selectedPlace}`);
+    return selectedPlace;
+  } else {
+    console.log(`Invalid entry`);
   }
 }
 
-const gameBoard = GameBoard();
+const makeMove = () => {
+  
 
-console.log(gameBoard()); //testing
-
-//step 2. Take player input and change board cell
-function Cell() {
-  let value = 0;
-
-  const addFigure = (player) => {
-    value = player;
   }
 
-  const getValue = () => value;
-
-  return {
-    addFigure,
-    getValue
-  }
 }
-
-//step 3. Check with .map if cell is empty
+GameBoard();
