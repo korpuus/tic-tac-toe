@@ -14,19 +14,23 @@ function GameBoard () {
  
 
 const playerMove = () => {
-  const row = prompt('Enter row and row number from 1 to 3: ');
-  const column = prompt('Enter column number from 1 to 3: ');
+  const rowPick = prompt('Enter row number from 1 to 3: ');
+  const columnPick = prompt('Enter column number from 1 to 3: ');
 
-  if (row > 0 && row < row.length && column > 0 && column < column.length) {
-    const selectedPlace = board[row][column];
+  const rowNumber = parseInt(rowPick);
+  const columnNumber = parseInt(columnPick);
+
+  if (rowNumber > 0 && rowNumber < 3 && columnNumber > 0 && columnNumber < 3) {
+    const selectedPlace = board[rowPick][columnPick];
     console.log(`Selected place is ${selectedPlace}`);
     return selectedPlace;
   } else {
     console.log(`Invalid entry`);
   }
 }
+playerMove();
 
-const makeMove = () => {
+const makeMove = (playerMove, board) => {
   
 
   }
