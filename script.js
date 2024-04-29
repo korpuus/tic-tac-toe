@@ -24,10 +24,7 @@ const playerChoice = () => {
     console.log(`Invalid entry`);
     return null;
   }
-}
-/* I need to (filter, loop, map...?) through board with player cell choice to check if it's valid move 
-  valid if (equal to 0 [later to player value {1 or 2} that is taking turn -> after i add 2 players]), 
-  then use addToken() to add player move in that cell*/
+  }
 
   const playerMove = (player) => {
     const playerChoiceCoordinates = playerChoice();
@@ -37,6 +34,7 @@ const playerChoice = () => {
     // Destructuring playerChoice for row and column values
     const [row, column] = playerChoiceCoordinates;
 
+    // Move valid if cell is empty (later add if not value of other player)
     board[row][column].getValue() === 0
       ? board[row][column].addToken(player)
       : console.log('Invalid move') 
@@ -49,7 +47,6 @@ const playerChoice = () => {
   };
 
   return {getBoard, playerMove, printBoard};
-
 }
 
 // assign value to cell and change value with player variable
@@ -68,3 +65,27 @@ function Cell (player) {
   };
 }
 
+/*
+Control flow of the game:
+-adds players
+-game turns
+-winning conditions
+*/
+
+function GameController () {
+
+  const board = GameBoard();
+
+  const players = [
+    {
+      name: playerOneName,
+      token: 1
+    },
+    {
+      name: playerTwoName,
+      token: 2
+    }
+  ];
+
+
+};
