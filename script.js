@@ -34,14 +34,21 @@ const playerChoice = () => {
 
     if (!playerChoiceCoordinates) return;
 
+    // Destructuring playerChoice for row and column values
     const [row, column] = playerChoiceCoordinates;
 
-    if (board[row][column].getValue() === 0) {
-      board[row][column].addToken(player);
-    } else {
-      console.log('Invalid move');
-    }
+    board[row][column].getValue() === 0
+      ? board[row][column].addToken(player)
+      : console.log('Invalid move') 
   }
+
+  // Prints board with cell values
+  const printBoard = () => {
+    const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
+    console.log(boardWithCellValues);
+  };
+
+  return {getBoard, playerMove, printBoard};
 
 }
 
