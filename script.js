@@ -12,28 +12,36 @@ function GameBoard () {
     }
   }
  
+const getBoard = () => board;
 
 const playerChoice = () => {
-  // ask user to pick cell on board
-  const rowPick = prompt('Enter row number from 1 to 3: ');
-  const columnPick = prompt('Enter column number from 1 to 3: ');
+  const rowPick = parseInt(prompt('Enter row number from 1 to 3: ')) - 1;
+  const columnPick = parseInt(prompt('Enter column number from 1 to 3: ')) - 1;
 
-  const rowNumber = parseInt(rowPick);
-  const columnNumber = parseInt(columnPick);
-
-  if (rowNumber > 0 && rowNumber < row && columnNumber > 0 && columnNumber < column) {
-    const selectedPlace = board[rowPick][columnPick];
-    console.log(`Selected place is ${selectedPlace}`);
-    return selectedPlace;
+  if (rowPick >= 0 && rowPick < row && columnPick >= 0 && columnPick < column) {
+    return [rowPick, columnPick];
   } else {
     console.log(`Invalid entry`);
+    return null;
   }
-
-  /* I need to (filter, loop, map...?) through board with player cell choice to check if it's valid move 
+}
+/* I need to (filter, loop, map...?) through board with player cell choice to check if it's valid move 
   valid if (equal to 0 [later to player value {1 or 2} that is taking turn -> after i add 2 players]), 
   then use addToken() to add player move in that cell*/
-}
-playerChoice();
+
+  const playerMove = (player) => {
+    const playerChoiceCoordinates = playerChoice();
+
+    if (!playerChoiceCoordinates) return;
+
+    const [row, column] = playerChoiceCoordinates;
+
+    if (board[row][column].getValue() === 0) {
+      board[row][column].addToken(player);
+    } else {
+      console.log('Invalid move');
+    }
+  }
 
 }
 
@@ -52,3 +60,4 @@ function Cell (player) {
     getValue
   };
 }
+
