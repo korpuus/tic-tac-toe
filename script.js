@@ -67,13 +67,15 @@ function Cell (player) {
 
 /*
 Control flow of the game:
--adds players
+-add players
 -game turns
 -winning conditions
 */
 
-function GameController () {
-
+function GameController (
+  playerOneName = 'Player One',
+  playerTwoName = 'Player Two'
+) {
   const board = GameBoard();
 
   const players = [
@@ -87,5 +89,19 @@ function GameController () {
     }
   ];
 
+  let activePlayer = players[0];
+
+  const switchPlayerTurn = () => {
+    activePlayer = activePlayer === players[0] 
+    ? players[1]
+    : players[0]
+  };
+
+  const getActivePlayer = () => activePlayer;
+
+  const printNewRound = () => {
+    board.printBoard();
+    console.log(`${getActivePlayer().name}'s turn.`);
+  }
 
 };
