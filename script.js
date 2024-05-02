@@ -50,7 +50,7 @@ const playerChoice = () => {
 }
 
 // assign value to cell and change value with player variable
-function Cell (player) {
+function Cell () {
   let value = 0;
 
   const addToken = (player) => {
@@ -92,7 +92,7 @@ function GameController (
   let activePlayer = players[0];
 
   const switchPlayerTurn = () => {
-    activePlayer = activePlayer === players[0] 
+    activePlayer = (activePlayer === players[0])
     ? players[1]
     : players[0]
   };
@@ -102,6 +102,21 @@ function GameController (
   const printNewRound = () => {
     board.printBoard();
     console.log(`${getActivePlayer().name}'s turn.`);
-  }
+  };
 
+  // Play round with activePlayer() and logic for handling wins
+
+  const playRound = () => {
+    // Get active player
+    const currentPlayer = getActivePlayer();
+
+    // Print current state of board
+    printNewRound();
+
+    // Active player makes move
+    playerMove(currentPlayer);
+
+    // Switch players
+    switchPlayerTurn();
+  };
 };
