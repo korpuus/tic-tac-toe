@@ -104,6 +104,18 @@ function GameController (
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
+  // Check for win function
+
+  const checkForWin = () => {
+    
+  };
+
+  // Check for tie
+
+  const checkForTie = () => {
+    
+  };
+
   // Play round with activePlayer() and logic for handling wins
 
   const playRound = () => {
@@ -119,4 +131,11 @@ function GameController (
     // Switch players
     switchPlayerTurn();
   };
+
+  return {
+    playRound,
+    getActivePlayer
+  };
 };
+
+const game = GameController();
