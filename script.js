@@ -106,14 +106,48 @@ function GameController (
 
   // Check for win function
 
-  const checkForWin = () => {
-    
-  };
-
-  // Check for tie
-
-  const checkForTie = () => {
-    
+  const checkForWin = (board) => {
+    const winningPatterns = [
+      // Rows
+      [[0, 0], [0, 1], [0, 2]],
+      [[1, 0], [1, 1], [1, 2]],
+      [[2, 0], [2, 1], [2, 2]],
+      // Columns
+      [[0, 0], [1, 0], [2, 0]],
+      [[0, 1], [1, 1], [2, 1]],
+      [[0, 2], [1, 2], [2, 2]],
+      // Diagonals
+      [[0, 0], [1, 1], [2, 2]],
+      [[0, 2], [1, 1], [2, 0]]
+    ];
+  
+    let isBoardFull = true;
+  
+    for (const pattern of winningPatterns) {
+      const [firstRow, firstCol] = pattern[0];
+      const symbol = board[firstRow][firstCol]; // Get the value of the first cell
+  
+      if (symbol === 0) {
+        isBoardFull = false; // Board is not full if there's an empty cell
+        continue; // Skip if first cell is empty
+      }
+  
+      const isWinningPattern = pattern.every(([row, col]) => board[row][col] === symbol);
+  
+      if (isWinningPattern) {
+        // Return the string indicating the winner
+        return symbol === 1 
+          ? 'Player 1 wins!' 
+          : 'Player 2 wins!';
+      }
+    }
+  
+    if (isBoardFull) {
+      return 'Tie!';
+    }
+  
+    // If no winning pattern is found and the board is not full, return a string indicating no winner yet
+    return null;
   };
 
   // Play round with activePlayer() and logic for handling wins
@@ -127,6 +161,9 @@ function GameController (
 
     // Active player makes move
     playerMove(currentPlayer);
+
+    // Check for win
+    checkForWin();
 
     // Switch players
     switchPlayerTurn();
