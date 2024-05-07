@@ -2,14 +2,23 @@ body {
   background-color: black;
   margin: 0;
   padding: 0;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 25%;
+  left: 50%;
 }
 
 .container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
+  grid-gap: 5px;
+  place-items: center;
+  position: absolute;
 }
 
 .cell {
   background-color: rgb(219, 213, 213);
+  padding: 5rem 5rem;
 }
