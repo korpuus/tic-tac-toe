@@ -175,4 +175,31 @@ function GameController (
   };
 };
 
-const game = GameController();
+function ScreenController () {
+  const game = GameController();
+  const textDiv = document.querySelector('.text');
+  const boardDiv = document.querySelector('.board');
+
+
+  const updateScreen = () => {
+    // Clear board
+    boardDiv.textContent = '';
+
+    // Newest version of board and player turn
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
+
+    // Display player's turn
+    textDiv.textContent = `${activePlayer.name}'s turn...`;
+
+    // Grab board and assign values to cells
+    const buttons = document.querySelectorAll('.cell');
+    
+    for(let i = 0; i < board.length; i++) {
+      for(let j = 0; j < board[i].length; j++) {
+        buttons[i * board.length + j].textContent = board[i][j];
+      }
+    }
+    
+  }
+};
