@@ -1,4 +1,4 @@
-
+// Get board and print board
 function GameBoard () {
   const row = 3;
   const column = 3;
@@ -12,33 +12,7 @@ function GameBoard () {
     }
   }
  
-const getBoard = () => board;
-
-const playerChoice = () => {
-  const rowPick = parseInt(prompt('Enter row number from 1 to 3: ')) - 1;
-  const columnPick = parseInt(prompt('Enter column number from 1 to 3: ')) - 1;
-
-  if (rowPick >= 0 && rowPick < row && columnPick >= 0 && columnPick < column) {
-    return [rowPick, columnPick];
-  } else {
-    console.log(`Invalid entry`);
-    return null;
-  }
-  }
-
-  const playerMove = (player) => {
-    const playerChoiceCoordinates = playerChoice();
-
-    if (!playerChoiceCoordinates) return;
-
-    // Destructuring playerChoice for row and column values
-    const [row, column] = playerChoiceCoordinates;
-
-    // Move valid if cell is empty (later add if not value of other player)
-    board[row][column].getValue() === 0
-      ? board[row][column].addToken(player)
-      : console.log('Invalid move') 
-  }
+  const getBoard = () => board;
 
   // Prints board with cell values
   const printBoard = () => {
@@ -46,7 +20,7 @@ const playerChoice = () => {
     console.log(boardWithCellValues);
   };
 
-  return {getBoard, playerMove, printBoard};
+  return {getBoard, printBoard};
 }
 
 // assign value to cell and change value with player variable
@@ -150,17 +124,23 @@ function GameController (
     return null;
   };
 
-  // Play round with activePlayer() and logic for handling wins
 
   const playRound = () => {
     // Get active player
-    const currentPlayer = getActivePlayer();
+    let currentPlayer = getActivePlayer();
 
     // Print current state of board
     printNewRound();
 
-    // Active player makes move
-    playerMove(currentPlayer);
+    // Player move here
+    const playerMove = (row, column) => {
+      // Add token to corresponding cell in the board
+      if (board[row][column].getValue() !== 0 && board[row][column].getValue() !== getActivePlayer().token) {
+        return; // Move is not valid
+      } else {
+        // Move is valid
+        board[row][column].addToken(getActivePlayer().token);
+      }
 
     // Check for win
     checkForWin();
@@ -171,7 +151,9 @@ function GameController (
 
   return {
     playRound,
-    getActivePlayer
+    getActivePlayer,
+    getBoard: board.getBoard,
+    playerMove
   };
 };
 
@@ -179,7 +161,17 @@ function ScreenController () {
   const game = GameController();
   const textDiv = document.querySelector('.text');
   const boardDiv = document.querySelector('.board');
+  
+  const buttons = document.querySelectorAll('.cell');
 
+  // Add event listener to each cell
+  buttons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+      const row = Math.floor(index / 3);
+      const column = index % 3;
+      game.playerMove(row, column);
+    });
+  });
 
   const updateScreen = () => {
     // Clear board
@@ -192,14 +184,6 @@ function ScreenController () {
     // Display player's turn
     textDiv.textContent = `${activePlayer.name}'s turn...`;
 
-    // Grab board and assign values to cells
-    const buttons = document.querySelectorAll('.cell');
     
-    for(let i = 0; i < board.length; i++) {
-      for(let j = 0; j < board[i].length; j++) {
-        buttons[i * board.length + j].textContent = board[i][j];
-      }
-    }
-    
-  }
+  };
 };
