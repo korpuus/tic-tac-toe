@@ -12,6 +12,7 @@ function GameBoard () {
     }
   }
  
+  // Get board
   const getBoard = () => board;
 
   // Prints board with cell values
@@ -127,11 +128,11 @@ function GameController (
 
   const playRound = () => {
     // Get active player
-    let currentPlayer = getActivePlayer();
-
+    getActivePlayer();
+  
     // Print current state of board
     printNewRound();
-
+  
     // Player move here
     const playerMove = (row, column) => {
       // Add token to corresponding cell in the board
@@ -141,19 +142,25 @@ function GameController (
         // Move is valid
         board[row][column].addToken(getActivePlayer().token);
       }
+  
+      // Check for win
+      const result = checkForWin(board.getBoard());
 
-    // Check for win
-    checkForWin();
-
-    // Switch players
-    switchPlayerTurn();
-  };
-
-  return {
-    playRound,
-    getActivePlayer,
-    getBoard: board.getBoard,
-    playerMove
+      if (result) {
+        textDiv.textContent = `${activePlayer.name} wins!`;
+      } else if (result === 'Tie!') { 
+          textDiv.textContent = 'It\'s a tie!';
+      } else {
+          switchPlayerTurn();
+       }
+    };
+  
+    return {
+      playRound,
+      getActivePlayer,
+      getBoard: board.getBoard,
+      playerMove
+    };
   };
 };
 
