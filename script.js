@@ -15,15 +15,7 @@ function GameBoard() {
   // Get board
   const getBoard = () => board;
 
-  // Prints board with cell values
-  const printBoard = () => {
-    const boardWithCellValues = board.map((row) =>
-      row.map((cell) => cell.getValue())
-    );
-    console.log(boardWithCellValues);
-  };
-
-  return { getBoard, printBoard };
+  return { getBoard };
 }
 
 // Assign value to cell and change value with player variable
@@ -71,11 +63,6 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
   const getActivePlayer = () => activePlayer;
 
-  const printNewRound = () => {
-    board.printBoard();
-    console.log(`${getActivePlayer().name}'s turn.`);
-  };
-
   // Check for win function
   const checkForWin = (board) => {
     const winningPatterns = [
@@ -115,7 +102,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
       return "Tie!";
     }
 
-    // If no winning pattern is found and the board is not full, return null indicating no winner yet
+    // If no winning pattern and the board isn't full
     return null;
   };
 
@@ -152,8 +139,8 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 (function ScreenController() {
   const game = GameController();
   const textDiv = document.querySelector(".text");
-
   const buttons = document.querySelectorAll(".cell");
+  let activePlayer = game.getActivePlayer();
 
   // Add event listener to each cell
   buttons.forEach((button, index) => {
@@ -173,9 +160,9 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
   const updateScreen = () => {
     // Newest version of board and player turn
     const board = game.getBoard();
-    let activePlayer = game.getActivePlayer();
+    activePlayer = game.getActivePlayer();
 
-    // Update board with the current state of the board
+    // Update board
     board.forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
         const button = buttons[rowIndex * 3 + columnIndex];
@@ -185,9 +172,9 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
   };
 
 
-  // Call updateScreen once at the start to initialize the screen
+  // Initialize screen
   updateScreen();
-  textDiv.textContent = `${game.getActivePlayer().name}'s turn...`;
+  textDiv.textContent = `${activePlayer.name}'s turn...`;
 
 
   // Restart button
@@ -195,11 +182,10 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
   restartButton.addEventListener("click", () => {
     game.getBoard().forEach((row) => row.forEach((cell) => cell.addToken(0)));
     updateScreen();
-    if (game.getActivePlayer().name !== "Player One") {
+    // Restart always to player one
+    if (activePlayer.name !== "Player One") {
       game.switchPlayerTurn();
     }
-    textDiv.textContent = `${game.getActivePlayer().name}'s turn...`;
+    textDiv.textContent = `${activePlayer.name}'s turn...`;
   });
 })();
-
-
