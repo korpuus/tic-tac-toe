@@ -149,7 +149,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
   };
 }
 
-function ScreenController() {
+(function ScreenController() {
   const game = GameController();
   const textDiv = document.querySelector(".text");
 
@@ -200,6 +200,6 @@ function ScreenController() {
     }
     textDiv.textContent = `${game.getActivePlayer().name}'s turn...`;
   });
-}
+})();
 
-ScreenController();
+
