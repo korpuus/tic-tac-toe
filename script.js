@@ -145,13 +145,13 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     getActivePlayer,
     getBoard: board.getBoard,
     playerMove,
+    switchPlayerTurn
   };
 }
 
 function ScreenController() {
   const game = GameController();
   const textDiv = document.querySelector(".text");
-  const boardDiv = document.querySelector(".board");
 
   const buttons = document.querySelectorAll(".cell");
 
@@ -173,9 +173,9 @@ function ScreenController() {
   const updateScreen = () => {
     // Newest version of board and player turn
     const board = game.getBoard();
-    const activePlayer = game.getActivePlayer();
+    let activePlayer = game.getActivePlayer();
 
-    // Update boardDiv with the current state of the board
+    // Update board with the current state of the board
     board.forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
         const button = buttons[rowIndex * 3 + columnIndex];
@@ -188,6 +188,18 @@ function ScreenController() {
   // Call updateScreen once at the start to initialize the screen
   updateScreen();
   textDiv.textContent = `${game.getActivePlayer().name}'s turn...`;
+
+
+  // Restart button
+  const restartButton = document.getElementById("restart-btn");
+  restartButton.addEventListener("click", () => {
+    game.getBoard().forEach((row) => row.forEach((cell) => cell.addToken(0)));
+    updateScreen();
+    if (game.getActivePlayer().name !== "Player One") {
+      game.switchPlayerTurn();
+    }
+    textDiv.textContent = `${game.getActivePlayer().name}'s turn...`;
+  });
 }
 
 ScreenController();
